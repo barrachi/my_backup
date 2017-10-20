@@ -59,3 +59,5 @@ export BORG_REPO
 export BORG_PASSPHRASE
 # Launch borg backup
 borg create --verbose --stats --progress --exclude-if-present .nobackup --exclude-caches ${EXCLUDE_FROM} --compression lz4 ::{fqdn}_{now:%Y-%m-%d_%H:%M:%S} ${BACKUP_PATHS}
+# Check last archive
+borg check --prefix {fqdn} --last 1 ::
