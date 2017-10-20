@@ -6,7 +6,7 @@
 [[ ${BASH_SOURCE[0]} == ${0} ]] && { echo "Error: This script should be sourced by 'my_backup.sh'!" >&2 ; exit -1; }
 
 # Check required variables
-[ -z "${PGSQL_VER}" -o -z "${PGSQL_USER}" ] && {echo "Warning: PostgreSQL backup skipped!"; return; }
+[ -z "${PGSQL_VER}" -o -z "${PGSQL_USER}" ] && { echo "Warning: PostgreSQL backup skipped!"; return; }
 
 # Set PGSQL_DIR and create if it does not exist
 PGSQL_DIR="${MY_BACKUP_OUTPUT_DIR}/pgsql/${PGSQL_VER}"
