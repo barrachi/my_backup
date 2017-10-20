@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ###########################################################################
 #  my_backup.sh -- A simple backup script for a Gentoo systemd system     #
@@ -43,11 +43,11 @@ shift $((OPTIND-1))
 
 # Source configuration
 CONFIG="${CONFIG:-${SCRIPTPATH}/my_backup.conf}"
-[ -f "${CONFIG}" ] || echo "Error: configuration file '${CONFIG}' not found!" >&2 && exit -1
-source "${CONFIG}"
+[ -f "${CONFIG}" ] || { echo "Error: configuration file '${CONFIG}' not found!" >&2 ; exit -1; }
+source ${CONFIG}
 
 # Check required variables
-[ -z "${MY_BACKUP_OUTPUT_DIR}" ] && echo "Error: my_backup.sh is not properly configured (MY_BACKUP_OUTPUT_DIR is not defined)!" && exit -1
+[ -z "${MY_BACKUP_OUTPUT_DIR}" ] && { echo "Error: my_backup.sh is not properly configured (MY_BACKUP_OUTPUT_DIR is not defined)!" ; exit -1; }
 
 # Create MY_BACKUP_OUTPUT_DIR if it does not exist
 [ -d "${MY_BACKUP_OUTPUT_DIR}" ] || mkdir -p "${MY_BACKUP_OUTPUT_DIR}"
@@ -65,8 +65,8 @@ echo "*********************************"
 echo "**    Launching borg backup    **"
 echo "*********************************"
 # Check required variables for borg backup command
-for VAR in BORG_REPO BORG_ARCHIVE BORG_PASSPHRASE BACKUP_PATHS EXCLUDED_FILES_FILE; do
-    [ -z "${!VAR}" ]  && echo "Error: required variable '${VAR}' is not defined!" && exit -1
+for VAR in BORG_REPO BORG_ARCHIVE BORG_PASSPHRASE BACKUP_PATHS; do
+    [ -z "${!VAR}" ]  && { echo "Error: required variable '${VAR}' is not defined!"; exit -1; }
 done
 # Set EXCLUDE_FROM option
 EXCLUDE_FROM=""

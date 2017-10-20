@@ -3,10 +3,10 @@
 #----------------------------------------------------
 
 # Check that this script has been sourced
-[[ $_ != $0 ]] || echo "Error: This script should be sourced by 'my_backup.sh'!" >&2 || exit -1
+[[ ${BASH_SOURCE[0]} == ${0} ]] && { echo "Error: This script should be sourced by 'my_backup.sh'!" >&2 ; exit -1; }
 
 # Check required variables
-[ -z "${EXCLUDED_FILES_FILE}" ] && echo "EXCLUDED_FILES_FILE not defined. Not generating EXCLUDED_FILES_FILE!" && return
+[ -z "${EXCLUDED_FILES_FILE}" ] && { echo "EXCLUDED_FILES_FILE not defined. Not generating EXCLUDED_FILES_FILE!"; return; }
 
 # Generate excluded_files file
 echo

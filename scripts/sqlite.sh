@@ -3,10 +3,10 @@
 #--------------------------------------------------
 
 # Check that this script has been sourced
-[[ $_ != $0 ]] || echo "Error: This script should be sourced by 'my_backup.sh'!" >&2 || exit -1
+[[ ${BASH_SOURCE[0]} == ${0} ]] && { echo "Error: This script should be sourced by 'my_backup.sh'!" >&2 ; exit -1; }
 
 # Check required variables
-[ -z "${SQLITE_DBS}" ] && echo "Warning: SQLite backup skipped!" && return
+[ -z "${SQLITE_DBS}" ] && { echo "Warning: SQLite backup skipped!"; return; }
 
 # Set SQLITE_DIR and create if it does not exist
 SQLITE_DIR="${MY_BACKUP_OUTPUT_DIR}/sqlite3"

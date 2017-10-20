@@ -3,10 +3,10 @@
 #--------------------------------------------------
 
 # Check that this script has been sourced
-[[ $_ != $0 ]] || echo "Error: This script should be sourced by 'my_backup.sh'!" >&2 || exit -1
+[[ ${BASH_SOURCE[0]} == ${0} ]] && { echo "Error: This script should be sourced by 'my_backup.sh'!" >&2 ; exit -1; }
 
 # Check required variables
-[ -z "${MYSQL_USER}" -o -z "${MYSQL_PASS}" ] && echo "Warning: MySQL backup skipped!" && return
+[ -z "${MYSQL_USER}" -o -z "${MYSQL_PASS}" ] && { echo "Warning: MySQL backup skipped!"; return; }
 
 # Set MYSQL_DIR and create if it does not exist
 MYSQL_DIR="${MY_BACKUP_OUTPUT_DIR}/mysql"
