@@ -25,15 +25,32 @@ pushd $(dirname $BASH_SOURCE[0]) > /dev/null
 SCRIPTPATH="$( pwd -P )"
 popd > /dev/null
 
-# Source my_backup.conf
-[ -f "${SCRIPTPATH}/my_backup.conf" ] || echo "Error: file 'my_backup.conf' not found!" >&2
-source "${SCRIPTPATH}/my_backup.conf"
+# Usage
+usage() { echo "Usage: $0 [-c CONFIG]" 1>&2; exit 1; }
+
+# Get options
+while getopts ":c:" o; do
+  case "${o}" in
+    c)
+      CONFIG=${OPTARG}
+      ;;
+    *)
+      usage
+      ;;
+    esac
+done
+shift $((OPTIND-1))
+
+# Source configuration
+CONFIG="${CONFIG:-${SCRIPTPATH}/my_backup.conf}"
+[ -f "${CONFIG}" ] || echo "Error: configuration file '${CONFIG}' not found!" >&2 && exit -1
+source "${CONFIG}"
 
 # Check required variables
-[ -z "${MY_BACKUP_DIR}" ] && echo "Error: my_backup.sh is not properly configured (MY_BACKUP_DIR is not defined)!" && exit -1
+[ -z "${MY_BACKUP_OUTPUT_DIR}" ] && echo "Error: my_backup.sh is not properly configured (MY_BACKUP_OUTPUT_DIR is not defined)!" && exit -1
 
-# Create MY_BACKUP_DIR if it does not exist
-[ -d "${MY_BACKUP_DIR}" ] || mkdir "${MY_BACKUP_DIR}"
+# Create MY_BACKUP_OUTPUT_DIR if it does not exist
+[ -d "${MY_BACKUP_OUTPUT_DIR}" ] || mkdir -p "${MY_BACKUP_OUTPUT_DIR}"
 
 # Launch my_backup scripts
 echo "*********************************"
@@ -48,7 +65,7 @@ echo "*********************************"
 echo "**    Launching borg backup    **"
 echo "*********************************"
 # Check required variables for borg backup command
-for VAR in BORG_REPO BORG_PASSPHRASE BACKUP_PATHS EXCLUDED_FILES_FILE; do
+for VAR in BORG_REPO BORG_ARCHIVE BORG_PASSPHRASE BACKUP_PATHS EXCLUDED_FILES_FILE; do
     [ -z "${!VAR}" ]  && echo "Error: required variable '${VAR}' is not defined!" && exit -1
 done
 # Set EXCLUDE_FROM option
@@ -58,6 +75,6 @@ EXCLUDE_FROM=""
 export BORG_REPO
 export BORG_PASSPHRASE
 # Launch borg backup
-borg create --verbose --stats --progress --exclude-if-present .nobackup --exclude-caches ${EXCLUDE_FROM} --compression lz4 ::{fqdn}_{now:%Y-%m-%d_%H:%M:%S} ${BACKUP_PATHS}
-# Check last archive
-borg check --prefix {fqdn} --last 1 ::
+borg create --verbose --stats --progress --exclude-if-present .nobackup --exclude-caches ${EXCLUDE_FROM} --compression lz4 ::${BORG_ARCHIVE} ${BACKUP_PATHS}
+## Check last archive
+## borg check --prefix {fqdn} --last 1 ::

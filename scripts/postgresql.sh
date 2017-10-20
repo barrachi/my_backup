@@ -9,7 +9,7 @@
 [ -z "${PGSQL_VER}" -o -z "${PGSQL_USER}" ] && echo "Warning: PostgreSQL backup skipped!" && return
 
 # Set PGSQL_DIR and create if it does not exist
-PGSQL_DIR="${MY_BACKUP_DIR}/pgsql/${PGSQL_VER}"
+PGSQL_DIR="${MY_BACKUP_OUTPUT_DIR}/pgsql/${PGSQL_VER}"
 [ -d "${PGSQL_DIR}" ] || mkdir -p "${PGSQL_DIR}"
 
 # Dump databases
@@ -32,5 +32,5 @@ done
 #  edit /etc/conf.d/postgresql-x.y
 #  emerge --config =postgresql-x.y.z
 #  systemctl start postgresql-x.y
-#  psql -U ${PGSQL_USER} -f ${MY_BACKUP_DIR}/pgsql/${PGSQL_VER}/pg_dumpall.out template1
+#  psql -U ${PGSQL_USER} -f ${MY_BACKUP_OUTPUT_DIR}/pgsql/${PGSQL_VER}/pg_dumpall.out template1
 #-------------------------------

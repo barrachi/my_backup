@@ -9,7 +9,7 @@
 [ -z "${MYSQL_USER}" -o -z "${MYSQL_PASS}" ] && echo "Warning: MySQL backup skipped!" && return
 
 # Set MYSQL_DIR and create if it does not exist
-MYSQL_DIR="${MY_BACKUP_DIR}/mysql"
+MYSQL_DIR="${MY_BACKUP_OUTPUT_DIR}/mysql"
 [ -d "${MYSQL_DIR}" ] || mkdir "${MYSQL_DIR}"
 
 # Dump databases

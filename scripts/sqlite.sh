@@ -9,7 +9,7 @@
 [ -z "${SQLITE_DBS}" ] && echo "Warning: SQLite backup skipped!" && return
 
 # Set SQLITE_DIR and create if it does not exist
-SQLITE_DIR="${MY_BACKUP_DIR}/sqlite3"
+SQLITE_DIR="${MY_BACKUP_OUTPUT_DIR}/sqlite3"
 [ -d "${SQLITE_DIR}" ] || mkdir "${SQLITE_DIR}"
 
 # Dump databases
