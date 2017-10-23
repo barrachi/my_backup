@@ -68,13 +68,16 @@ echo "*********************************"
 for VAR in BORG_REPO BORG_ARCHIVE BORG_PASSPHRASE BACKUP_PATHS; do
     [ -z "${!VAR}" ]  && { echo "Error: required variable '${VAR}' is not defined!"; exit -1; }
 done
-# Set EXCLUDE_FROM option
-EXCLUDE_FROM=""
-[ -z "${EXCLUDED_FILES_FILE}" ] || EXCLUDE_FROM="--exclude-from ${EXCLUDED_FILES_FILE}"
+# Set EXCLUDE_FROM_OPTION
+EXCLUDE_FROM_OPTION=""
+[ -z "${EXCLUDED_FILES_FILE}" ] || EXCLUDE_FROM_OPTION="--exclude-from ${EXCLUDED_FILES_FILE}"
 # Export borg required variables
 export BORG_REPO
 export BORG_PASSPHRASE
 # Launch borg backup
-borg create --verbose --stats --progress --exclude-if-present .nobackup --exclude-caches ${EXCLUDE_FROM} --compression lz4 ::${BORG_ARCHIVE} ${BACKUP_PATHS}
+borg create --verbose --stats --progress \
+            --exclude-if-present .nobackup --keep-exclude-tags --exclude-caches ${EXCLUDE_FROM_OPTION} \
+            --compression lz4 \
+            ::${BORG_ARCHIVE} ${BACKUP_PATHS}
 ## Check last archive
 ## borg check --prefix {fqdn} --last 1 ::

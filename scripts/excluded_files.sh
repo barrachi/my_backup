@@ -52,6 +52,7 @@ do
   # find ${HOME} -maxdepth 1 -name '.*' -print >> ${EXCLUDED_FILES_FILE}
   for FILEORDIR in \
     .cache         \
+    .wine          \
     ;
   do
     if [ -e "${HOME}/${FILEORDIR}" ]; then
