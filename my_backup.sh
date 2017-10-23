@@ -76,7 +76,7 @@ export BORG_REPO
 export BORG_PASSPHRASE
 # Launch borg backup
 borg create --verbose --stats --progress \
-            --exclude-if-present .nobackup --keep-exclude-tags --exclude-caches ${EXCLUDE_FROM_OPTION} \
+            --exclude-if-present .nobackup --keep-tag-files --exclude-caches ${EXCLUDE_FROM_OPTION} \
             --compression lz4 \
             ::${BORG_ARCHIVE} ${BACKUP_PATHS}
 ## Check last archive
