@@ -22,11 +22,6 @@ cat > ${EXCLUDED_FILES_FILE} <<EOF
 # Specific files and directories not to be backed up
 #---------------------------------------------------
 #---------------------
-# Home
-#---------------------
-/home/data
-/home/chroot/tmp
-#---------------------
 # XSession
 #---------------------
 .xauth*
@@ -45,6 +40,21 @@ cat > ${EXCLUDED_FILES_FILE} <<EOF
 EOF
 
 echo "#--------------------------------------------------" >> ${EXCLUDED_FILES_FILE}
+echo "# Special directories                              " >> ${EXCLUDED_FILES_FILE}
+echo "#--------------------------------------------------" >> ${EXCLUDED_FILES_FILE}
+for DIR in \
+    /home/data \
+    /home/chroot/tmp \
+    ;
+do
+    if [ -d "${DIR}" ]; then
+	echo "${DIR}" >> ${EXCLUDED_FILES_FILE}
+    fi
+done
+
+
+
+echo "#--------------------------------------------------" >> ${EXCLUDED_FILES_FILE}
 echo "# Home files and directories                       " >> ${EXCLUDED_FILES_FILE}
 echo "#--------------------------------------------------" >> ${EXCLUDED_FILES_FILE}
 for HOME in /home/* /root;
@@ -61,10 +71,12 @@ do
   done
 done
 
-echo "#--------------------------------------------------" >> ${EXCLUDED_FILES_FILE}
-echo "# Chroot homes                                     " >> ${EXCLUDED_FILES_FILE}
-echo "#--------------------------------------------------" >> ${EXCLUDED_FILES_FILE}
-for HOME in /home/chroot/home/*;
-do
-  echo "${HOME}" >> ${EXCLUDED_FILES_FILE}
-done
+if [ -d /home/chroot/home/ ]; then
+    echo "#--------------------------------------------------" >> ${EXCLUDED_FILES_FILE}
+    echo "# Chroot homes                                     " >> ${EXCLUDED_FILES_FILE}
+    echo "#--------------------------------------------------" >> ${EXCLUDED_FILES_FILE}
+    for HOME in /home/chroot/home/*;
+    do
+	echo "${HOME}" >> ${EXCLUDED_FILES_FILE}
+    done
+fi
