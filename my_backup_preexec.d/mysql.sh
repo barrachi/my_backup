@@ -5,6 +5,10 @@
 # Check that this script has been sourced
 [[ ${BASH_SOURCE[0]} == ${0} ]] && { echo "Error: This script should be sourced by 'my_backup.sh'!" >&2 ; exit -1; }
 
+# Write banner
+echo
+echo "==  MySQL  =="
+
 # Check required variables
 [ -z "${MYSQL_USER}" -o -z "${MYSQL_PASS}" ] && { echo "Warning: MySQL backup skipped!"; return; }
 
@@ -13,8 +17,6 @@ MYSQL_DIR="${MY_BACKUP_OUTPUT_DIR}/mysql"
 [ -d "${MYSQL_DIR}" ] || mkdir "${MYSQL_DIR}"
 
 # Dump databases
-echo
-echo "==  MySQL  =="
 echo "Backing up data from MySQL in '${MYSQL_DIR}/'..."
 echo
 DBS=$( mysql -u ${MYSQL_USER} --password=${MYSQL_PASS} -e "show databases;" -B \

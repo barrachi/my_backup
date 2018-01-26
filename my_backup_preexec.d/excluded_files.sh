@@ -5,12 +5,14 @@
 # Check that this script has been sourced
 [[ ${BASH_SOURCE[0]} == ${0} ]] && { echo "Error: This script should be sourced by 'my_backup.sh'!" >&2 ; exit -1; }
 
+# Write banner
+echo
+echo "==  Excluded files  =="
+
 # Check required variables
 [ -z "${EXCLUDED_FILES_FILE}" ] && { echo "Warning: generation of EXCLUDED_FILES_FILE skipped!"; return; }
 
 # Generate excluded_files file
-echo
-echo "==  Excluded files  =="
 echo "Creating '${EXCLUDED_FILES_FILE}' with files to be excluded..."
 cat > ${EXCLUDED_FILES_FILE} <<EOF
 #
@@ -77,6 +79,6 @@ if [ -d /home/chroot/home/ ]; then
     echo "#--------------------------------------------------" >> ${EXCLUDED_FILES_FILE}
     for HOME in /home/chroot/home/*;
     do
-	echo "${HOME}" >> ${EXCLUDED_FILES_FILE}
+      echo "${HOME}" >> ${EXCLUDED_FILES_FILE}
     done
 fi

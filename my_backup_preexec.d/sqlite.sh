@@ -5,6 +5,10 @@
 # Check that this script has been sourced
 [[ ${BASH_SOURCE[0]} == ${0} ]] && { echo "Error: This script should be sourced by 'my_backup.sh'!" >&2 ; exit -1; }
 
+# Write banner
+echo
+echo "==  SQLITE3  =="
+
 # Check required variables
 [ -z "${SQLITE_DBS}" ] && { echo "Warning: SQLite backup skipped!"; return; }
 
@@ -13,9 +17,6 @@ SQLITE_DIR="${MY_BACKUP_OUTPUT_DIR}/sqlite3"
 [ -d "${SQLITE_DIR}" ] || mkdir "${SQLITE_DIR}"
 
 # Dump databases
-echo
-echo "==  SQLITE3  =="
-echo "Backing up data from ..."
 for DB in ${SQLITE_DBS}; do
     DB_DIR=$(dirname ${DB})
     [ -d "${SQLITE_DIR}/${DB_DIR}" ] || mkdir -p "${SQLITE_DIR}/${DB_DIR}"

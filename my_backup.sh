@@ -52,18 +52,18 @@ source ${CONFIG}
 # Create MY_BACKUP_OUTPUT_DIR if it does not exist
 [ -d "${MY_BACKUP_OUTPUT_DIR}" ] || mkdir -p "${MY_BACKUP_OUTPUT_DIR}"
 
-# Launch my_backup scripts
-echo "*********************************"
-echo "** Launching my_backup scripts **"
-echo "*********************************"
-for f in ${SCRIPTPATH}/scripts/*.sh; do
+# Launch my_backup_preexec scripts
+echo "*****************************************"
+echo "** Executing my_backup_preexec scripts **"
+echo "*****************************************"
+for f in ${SCRIPTPATH}/my_backup_preexec.d/*.sh; do
   source "${f}"
 done
 
 echo
-echo "*********************************"
-echo "**    Launching borg backup    **"
-echo "*********************************"
+echo "*****************************************"
+echo "** Executing borg backup               **"
+echo "*****************************************"
 # Check required variables for borg backup command
 for VAR in BORG_REPO BORG_ARCHIVE BORG_PASSPHRASE BACKUP_PATHS; do
     [ -z "${!VAR}" ]  && { echo "Error: required variable '${VAR}' is not defined!"; exit -1; }
@@ -74,10 +74,15 @@ EXCLUDE_FROM_OPTION=""
 # Export borg required variables
 export BORG_REPO
 export BORG_PASSPHRASE
-# Launch borg backup
-borg create --verbose --stats --progress \
-            --exclude-if-present .nobackup --keep-exclude-tags --exclude-caches ${EXCLUDE_FROM_OPTION} \
-            --compression lz4 \
+# Launch borg init if the repository does not exist
+[ -z "$(borg info :: 2>&1 | grep 'Repository :: does not exist.')" ] \
+  || borg init --encryption=repokey-blake2 ::
+# Launch borg create
+borg create --verbose --stats --progress                        \
+            --exclude-if-present .nobackup --keep-exclude-tags  \
+            --exclude-caches ${EXCLUDE_FROM_OPTION}             \
+            --one-file-system                                   \
+            --compression lz4                                   \
             ::${BORG_ARCHIVE} ${BACKUP_PATHS}
 ## Check last archive
 ## borg check --prefix {fqdn} --last 1 ::

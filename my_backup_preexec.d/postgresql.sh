@@ -5,6 +5,10 @@
 # Check that this script has been sourced
 [[ ${BASH_SOURCE[0]} == ${0} ]] && { echo "Error: This script should be sourced by 'my_backup.sh'!" >&2 ; exit -1; }
 
+# Write banner
+echo
+echo "==  POSTGRESQL  =="
+
 # Check required variables
 [ -z "${PGSQL_VER}" -o -z "${PGSQL_USER}" ] && { echo "Warning: PostgreSQL backup skipped!"; return; }
 
@@ -14,8 +18,6 @@ PGSQL_DIR="${MY_BACKUP_OUTPUT_DIR}/pgsql/${PGSQL_VER}"
 [ -d "${PGSQL_DIR}/data" ] || mkdir -p "${PGSQL_DIR}/data"
 
 # Dump databases
-echo
-echo "==  POSTGRESQL  =="
 echo "Backing up data from PostgreSQL ${PGSQL_VER} in '${PGSQL_DIR}/'..."
 /usr/bin/pg_dumpall -U ${PGSQL_USER} | gzip > "${PGSQL_DIR}/pg_dumpall.out.gz"
 for f in pg_hba.conf pg_ident.conf postgresql.conf;
