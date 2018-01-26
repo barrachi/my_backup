@@ -1,0 +1,45 @@
+# my_backup configuration file
+# ==================================================
+
+# Common configuration
+# --------------------------------------------------
+
+# my_backup output data path. Scripts will write on this directory.
+# Remeber to include it on BACKUP_PATHS.
+MY_BACKUP_OUTPUT_DIR=/root/backup/my_backup
+
+# Excluded files file
+EXCLUDED_FILES_FILE="${MY_BACKUP_OUTPUT_DIR}"/exclude_files
+
+# Borg configuration
+# See https://borgbackup.readthedocs.io/en/stable/usage/general.html#
+BORG_REPO='LOGIN@MACHINE:repo'
+BORG_ARCHIVE='{fqdn}_{now:%Y-%m-%d_%H:%M:%S}'
+BORG_PASSPHRASE='WRITE A PASSPHRASE HERE'
+
+# Dirs to be backed up
+BACKUP_PATHS="/home /root /etc /var/www /var/git /var/bzr /var/django"
+
+
+# Scripts configuration
+# --------------------------------------------------
+
+# PostgreSQL configuration
+# ~~~~~~~~~~~~~~~~~~~~~~~~
+# Uncomment the next lines to dump PostgreSQL databases
+#PGSQL_VER=10
+#PGSQL_USER=postgres
+
+
+# MySQL configuration
+# ~~~~~~~~~~~~~~~~~~~
+# Uncomment the next lines to dump MySQL databases
+#MYSQL_USER=root
+#MYSQL_PASS=MYSQL_PASSWORD
+
+
+# SQLite configuration
+# ~~~~~~~~~~~~~~~~~~~~
+# Uncomment the next line to dump SQLite databases
+# Space separated sqlite databases
+#SQLITE_DBS="/var/django/conference_program.db"
