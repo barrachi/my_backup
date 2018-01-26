@@ -3,7 +3,7 @@
 ###########################################################################
 #  my_backup.sh -- A simple backup script for a Gentoo systemd system     #
 #                                                                         #
-#  Copyright 2017 Sergio Barrachina Mir <barrachi@uji.es>                 #
+#  Copyright 2017-8 Sergio Barrachina Mir <barrachi@uji.es>               #
 #                                                                         #
 #  This program is free software: you can redistribute it and/or modify   #
 #  it under the terms of the GNU General Public License as published by   #
@@ -70,7 +70,7 @@ for VAR in BORG_REPO BORG_ARCHIVE BORG_PASSPHRASE BACKUP_PATHS; do
 done
 # Set EXCLUDE_FROM_OPTION
 EXCLUDE_FROM_OPTION=""
-[ -z "${EXCLUDED_FILES_FILE}" ] || EXCLUDE_FROM_OPTION="--exclude-from ${EXCLUDED_FILES_FILE}"
+[ -f "${EXCLUDED_FILES_FILE}" ] || EXCLUDE_FROM_OPTION="--exclude-from ${EXCLUDED_FILES_FILE}"
 # Export borg required variables
 export BORG_REPO
 export BORG_PASSPHRASE
