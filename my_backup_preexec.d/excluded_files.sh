@@ -65,6 +65,7 @@ do
   for FILEORDIR in \
     .cache         \
     .wine          \
+    .thumbnails    \
     ;
   do
     if [ -e "${HOME}/${FILEORDIR}" ]; then
