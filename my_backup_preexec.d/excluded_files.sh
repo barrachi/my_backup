@@ -26,14 +26,14 @@ cat > ${EXCLUDED_FILES_FILE} <<EOF
 #---------------------
 # XSession
 #---------------------
-.xauth*
-.xsession-errors-*
-.xsession-x2go-errors
+/*/.xauth*
+/*/.xsession-errors-*
+/*/.xsession-x2go-errors
 #---------------------
 # Version control dirs
 #---------------------
-.git
-.bzr
+/*/.git
+/*/.bzr
 #---------------------
 # Backup files
 #---------------------

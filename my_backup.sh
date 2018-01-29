@@ -66,7 +66,7 @@ echo "** Executing borg backup               **"
 echo "*****************************************"
 # Check required variables for borg backup command
 for VAR in BORG_REPO BORG_ARCHIVE BORG_PASSPHRASE BACKUP_PATHS; do
-    [ -z "${!VAR}" ]  && { echo "Error: required variable '${VAR}' is not defined!"; exit -1; }
+    [ -z "${!VAR}" ] && { echo "Error: required variable '${VAR}' is not defined!"; exit -1; }
 done
 # Set EXCLUDE_FROM_OPTION
 EXCLUDE_FROM_OPTION=""
@@ -76,13 +76,13 @@ export BORG_REPO
 export BORG_PASSPHRASE
 # Launch borg init if the repository does not exist
 [ -z "$(borg info :: 2>&1 | grep 'Repository :: does not exist.')" ] \
-  || borg init --encryption=repokey-blake2 ::
+  || { borg init --encryption=repokey-blake2 :: || exit -1 }
 # Launch borg create
 borg create --verbose --stats --progress                        \
             --exclude-if-present .nobackup --keep-exclude-tags  \
             --exclude-caches ${EXCLUDE_FROM_OPTION}             \
             --one-file-system                                   \
             --compression lz4                                   \
-            ::${BORG_ARCHIVE} ${BACKUP_PATHS}
+            ::${BORG_ARCHIVE} ${BACKUP_PATHS} || exit -1
 ## Check last archive
 ## borg check --prefix {fqdn} --last 1 ::

@@ -1,0 +1,8 @@
+[Unit]
+Description=Sends %I status to ADMIN@EXAMPLE.COM
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/systemd-email ADMIN@EXAMPLE.COM %i
+User=nobody
+Group=systemd-journal
