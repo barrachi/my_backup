@@ -30,6 +30,10 @@ cat > ${EXCLUDED_FILES_FILE} <<EOF
 /*/.xsession-errors-*
 /*/.xsession-x2go-errors
 #---------------------
+# Cache dirs
+#---------------------
+/*/.cache
+#---------------------
 # Version control dirs
 #---------------------
 /*/.git
