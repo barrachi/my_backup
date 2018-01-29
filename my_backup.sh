@@ -65,7 +65,7 @@ echo "*****************************************"
 echo "** Executing borg backup               **"
 echo "*****************************************"
 # Check required variables for borg backup command
-for VAR in BORG_REPO BORG_ARCHIVE BORG_PASSPHRASE BACKUP_PATHS; do
+for VAR in BORG_REPO BORG_PASSPHRASE BORG_ARCHIVE_PREFIX BACKUP_PATHS; do
     [ -z "${!VAR}" ] && { echo "Error: required variable '${VAR}' is not defined!"; exit -1; }
 done
 # Set EXCLUDE_FROM_OPTION
@@ -82,7 +82,13 @@ borg create --verbose --stats --progress                        \
             --exclude-if-present .nobackup --keep-exclude-tags  \
             --exclude-caches ${EXCLUDE_FROM_OPTION}             \
             --one-file-system                                   \
-            --compression lz4                                   \
-            ::${BORG_ARCHIVE} ${BACKUP_PATHS} || exit -1
+            --compression auto,lzma                             \
+            ::"${BORG_ARCHIVE_PREFIX}_{now:%Y-%m-%d_%H:%M:%S}"  \
+            ${BACKUP_PATHS} || exit -1
+# Launch borg prune
+borg prune --verbose --stats --list --save-space                \
+           --prefix="${BORG_ARCHIVE_PREFIX}"                    \
+           --keep-hourly=10 --keep-daily=7 --keep-weekly=4      \
+           --keep-monthly=6 --keep-yearly=2 :: || exit -1
 ## Check last archive
 ## borg check --prefix {fqdn} --last 1 ::

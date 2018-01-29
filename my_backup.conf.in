@@ -14,8 +14,8 @@ EXCLUDED_FILES_FILE="${MY_BACKUP_OUTPUT_DIR}"/exclude_files
 # Borg configuration
 # See https://borgbackup.readthedocs.io/en/stable/usage/general.html#
 BORG_REPO='LOGIN@MACHINE:repo'
-BORG_ARCHIVE='{fqdn}_{now:%Y-%m-%d_%H:%M:%S}'
 BORG_PASSPHRASE='WRITE A PASSPHRASE HERE'
+BORG_ARCHIVE_PREFIX='{fqdn}'
 
 # Dirs to be backed up
 BACKUP_PATHS="/home /root /etc /var/www /var/git /var/bzr /var/django"

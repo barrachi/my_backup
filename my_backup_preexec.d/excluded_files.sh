@@ -46,28 +46,12 @@ cat > ${EXCLUDED_FILES_FILE} <<EOF
 EOF
 
 echo "#--------------------------------------------------" >> ${EXCLUDED_FILES_FILE}
-echo "# Special directories                              " >> ${EXCLUDED_FILES_FILE}
-echo "#--------------------------------------------------" >> ${EXCLUDED_FILES_FILE}
-for DIR in \
-    /home/data \
-    /home/chroot/tmp \
-    ;
-do
-    if [ -d "${DIR}" ]; then
-	echo "${DIR}" >> ${EXCLUDED_FILES_FILE}
-    fi
-done
-
-
-
-echo "#--------------------------------------------------" >> ${EXCLUDED_FILES_FILE}
 echo "# Home files and directories                       " >> ${EXCLUDED_FILES_FILE}
 echo "#--------------------------------------------------" >> ${EXCLUDED_FILES_FILE}
 for HOME in /home/* /root;
 do
   # find ${HOME} -maxdepth 1 -name '.*' -print >> ${EXCLUDED_FILES_FILE}
   for FILEORDIR in \
-    .cache         \
     .wine          \
     .thumbnails    \
     ;
