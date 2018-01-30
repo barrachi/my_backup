@@ -82,7 +82,7 @@ borg create --verbose --stats --progress                        \
             --exclude-if-present .nobackup --keep-exclude-tags  \
             --exclude-caches ${EXCLUDE_FROM_OPTION}             \
             --one-file-system                                   \
-            --compression auto,lzma                             \
+            --compression lz4                                   \
             ::"${BORG_ARCHIVE_PREFIX}_{now:%Y-%m-%d_%H:%M:%S}"  \
             ${BACKUP_PATHS} || exit -1
 # Launch borg prune
