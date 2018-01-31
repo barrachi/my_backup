@@ -26,7 +26,7 @@ SCRIPTPATH="$( pwd -P )"
 popd > /dev/null
 
 # Usage
-usage() { echo "Usage: $0 [-c CONFIG]" 1>&2; exit 1; }
+usage() { echo "Usage: $0 [-c CONFIG] -- [BORG_CREATE_ARGS]" 1>&2; exit 1; }
 
 # Get options
 while getopts ":c:" o; do
@@ -40,6 +40,8 @@ while getopts ":c:" o; do
     esac
 done
 shift $((OPTIND-1))
+
+BORG_CREATE_ARGS=${*}
 
 # Source configuration
 CONFIG="${CONFIG:-${SCRIPTPATH}/my_backup.conf}"
@@ -83,6 +85,7 @@ borg create --verbose --stats                                   \
             --exclude-caches ${EXCLUDE_FROM_OPTION}             \
             --one-file-system                                   \
             --compression lz4                                   \
+	    ${BORG_CREATE_ARGS}                                 \
             ::"${BORG_ARCHIVE_PREFIX}_{now:%Y-%m-%d_%H:%M:%S}"  \
             ${BACKUP_PATHS} || exit -1
 
