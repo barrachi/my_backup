@@ -62,7 +62,7 @@ done
 
 echo
 echo "*****************************************"
-echo "** Executing borg backup               **"
+echo "** Executing borg backup create        **"
 echo "*****************************************"
 # Check required variables for borg backup command
 for VAR in BORG_REPO BORG_PASSPHRASE BORG_ARCHIVE_PREFIX BACKUP_PATHS; do
@@ -85,10 +85,16 @@ borg create --verbose --stats                                   \
             --compression lz4                                   \
             ::"${BORG_ARCHIVE_PREFIX}_{now:%Y-%m-%d_%H:%M:%S}"  \
             ${BACKUP_PATHS} || exit -1
+
+echo
+echo "*****************************************"
+echo "** Executing borg backup prune         **"
+echo "*****************************************"
 # Launch borg prune
 borg prune --verbose --stats --list --save-space                \
            --prefix="${BORG_ARCHIVE_PREFIX}"                    \
            --keep-hourly=10 --keep-daily=7 --keep-weekly=4      \
            --keep-monthly=6 --keep-yearly=2 :: || exit -1
+
 ## Check last archive
 ## borg check --prefix {fqdn} --last 1 ::
