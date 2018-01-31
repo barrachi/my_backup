@@ -32,6 +32,7 @@ cat > ${EXCLUDED_FILES_FILE} <<EOF
 # Cache dirs
 #------------------------------
 /*/.cache
+/*/cache
 
 # Indexers and trash folders
 #------------------------------
