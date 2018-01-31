@@ -78,7 +78,7 @@ export BORG_PASSPHRASE
 [ -z "$(borg info :: 2>&1 | grep 'Repository :: does not exist.')" ] \
   || { borg init --encryption=repokey-blake2 :: || exit -1 ; }
 # Launch borg create
-borg create --verbose --stats --progress                        \
+borg create --verbose --stats                                   \
             --exclude-if-present .nobackup --keep-exclude-tags  \
             --exclude-caches ${EXCLUDE_FROM_OPTION}             \
             --one-file-system                                   \
