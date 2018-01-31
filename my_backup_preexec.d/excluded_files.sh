@@ -26,41 +26,43 @@ cat > ${EXCLUDED_FILES_FILE} <<EOF
 
 # XSession files
 #------------------------------
-/home/*/.xauth*
-/home/*/.xsession-*
+/*/.xauth*
+/*/.xsession-*
 
 # Cache dirs
 #------------------------------
-/home/*/.cache
-
-# Version control dirs
-#------------------------------
-/home/*/.git
-/home/*/.bzr
+/*/.cache
 
 # Indexers and trash folders
 #------------------------------
-/home/*/.local/share/akonadi
-/home/*/.local/share/baloo
-/home/*/.local/share/Trash
+/*/.local/share/akonadi
+/*/.local/share/baloo
+/*/.local/share/Trash
+/*/files_trashbin
 
 # Download folders
 #------------------------------
-/home/*/Downloads
-/home/*/Descargas
+/*/Downloads
+/*/Descargas
 
 # Thumbnails folders
 #------------------------------
-/home/*/.thumbnails
+/*/.thumbnails
 
 # Wine folders
 #------------------------------
-/home/*/.wine
+/*/.wine
 
 # Backup files
 #------------------------------
 *~
 *.bak
+
+# Version control dirs in homes
+#------------------------------
+/home/*/.git
+/home/*/.bzr
+
 EOF
 
 if [ -d /home/chroot/home/ ]; then
