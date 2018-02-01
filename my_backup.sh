@@ -70,7 +70,7 @@ done
 EXCLUDE_FROM_OPTION=""
 [ -f "${EXCLUDED_FILES_FILE}" ] &&  EXCLUDE_FROM_OPTION="--exclude-from ${EXCLUDED_FILES_FILE}"
 
-for BORG_REPO in "${BORG_REPOSITORIES}"; do
+for BORG_REPO in ${BORG_REPOSITORIES}; do
   echo
   echo "******************************************************************************"
   echo "** borg backup create on '${BORG_REPO}'"
