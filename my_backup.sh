@@ -64,7 +64,7 @@ done
 
 # Check required variables for borg backup command
 for VAR in BORG_REPOSITORIES BORG_PASSPHRASE BORG_ARCHIVE_PREFIX BACKUP_PATHS; do
-    [ -z "${VAR}" ] && { echo "Error: required variable '${VAR}' is not defined!"; exit -1; }
+    [ -z "${!VAR}" ] && { echo "Error: required variable '${VAR}' is not defined!"; exit -1; }
 done
 # Set EXCLUDE_FROM_OPTION
 EXCLUDE_FROM_OPTION=""
