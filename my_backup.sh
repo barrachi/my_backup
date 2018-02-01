@@ -79,7 +79,7 @@ for BORG_REPO in ${BORG_REPOSITORIES}; do
   export BORG_REPO
   export BORG_PASSPHRASE
   # Launch borg init if the repository does not exist
-  [ -z "$(borg info :: 2>&1 | grep 'Repository :: does not exist.')" ] \
+  [ -z "$(borg info :: 2>&1 | grep 'does not exist.')" ] \
     || { borg init --encryption=repokey-blake2 :: || exit -1 ; }
   # Launch borg create
   borg create --verbose --stats                                   \
