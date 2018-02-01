@@ -55,49 +55,52 @@ source ${CONFIG}
 [ -d "${MY_BACKUP_OUTPUT_DIR}" ] || mkdir -p "${MY_BACKUP_OUTPUT_DIR}"
 
 # Launch my_backup_preexec scripts
-echo "*****************************************"
-echo "** Executing my_backup_preexec scripts **"
-echo "*****************************************"
+echo "******************************************************************************"
+echo "** my_backup_preexec scripts"
+echo "******************************************************************************"
 for f in ${SCRIPTPATH}/my_backup_preexec.d/*.sh; do
   source "${f}"
 done
 
-echo
-echo "*****************************************"
-echo "** Executing borg backup create        **"
-echo "*****************************************"
 # Check required variables for borg backup command
-for VAR in BORG_REPO BORG_PASSPHRASE BORG_ARCHIVE_PREFIX BACKUP_PATHS; do
-    [ -z "${!VAR}" ] && { echo "Error: required variable '${VAR}' is not defined!"; exit -1; }
+for VAR in BORG_REPOSITORIES BORG_PASSPHRASE BORG_ARCHIVE_PREFIX BACKUP_PATHS; do
+    [ -z "${VAR}" ] && { echo "Error: required variable '${VAR}' is not defined!"; exit -1; }
 done
 # Set EXCLUDE_FROM_OPTION
 EXCLUDE_FROM_OPTION=""
 [ -f "${EXCLUDED_FILES_FILE}" ] &&  EXCLUDE_FROM_OPTION="--exclude-from ${EXCLUDED_FILES_FILE}"
-# Export borg required variables
-export BORG_REPO
-export BORG_PASSPHRASE
-# Launch borg init if the repository does not exist
-[ -z "$(borg info :: 2>&1 | grep 'Repository :: does not exist.')" ] \
-  || { borg init --encryption=repokey-blake2 :: || exit -1 ; }
-# Launch borg create
-borg create --verbose --stats                                   \
-            --exclude-if-present .nobackup --keep-exclude-tags  \
-            --exclude-caches ${EXCLUDE_FROM_OPTION}             \
-            --one-file-system                                   \
-            --compression lz4                                   \
-	    ${BORG_CREATE_ARGS}                                 \
-            ::"${BORG_ARCHIVE_PREFIX}_{now:%Y-%m-%d_%H:%M:%S}"  \
-            ${BACKUP_PATHS} || exit -1
 
-echo
-echo "*****************************************"
-echo "** Executing borg backup prune         **"
-echo "*****************************************"
-# Launch borg prune
-borg prune --verbose --stats --list --save-space                \
-           --prefix="${BORG_ARCHIVE_PREFIX}"                    \
-           --keep-hourly=10 --keep-daily=7 --keep-weekly=4      \
-           --keep-monthly=6 --keep-yearly=2 :: || exit -1
+for BORG_REPO in "${BORG_REPOSITORIES}"; do
+  echo
+  echo "******************************************************************************"
+  echo "** borg backup create on '${BORG_REPO}'"
+  echo "******************************************************************************"
+  # Export borg required variables
+  export BORG_REPO
+  export BORG_PASSPHRASE
+  # Launch borg init if the repository does not exist
+  [ -z "$(borg info :: 2>&1 | grep 'Repository :: does not exist.')" ] \
+    || { borg init --encryption=repokey-blake2 :: || exit -1 ; }
+  # Launch borg create
+  borg create --verbose --stats                                   \
+              --exclude-if-present .nobackup --keep-exclude-tags  \
+              --exclude-caches ${EXCLUDE_FROM_OPTION}             \
+              --one-file-system                                   \
+              --compression lz4                                   \
+  	    ${BORG_CREATE_ARGS}                                 \
+              ::"${BORG_ARCHIVE_PREFIX}_{now:%Y-%m-%d_%H:%M:%S}"  \
+              ${BACKUP_PATHS} || exit -1
 
-## Check last archive
-## borg check --prefix {fqdn} --last 1 ::
+  echo
+  echo "******************************************************************************"
+  echo "** borg backup prune on '${BORG_REPO}'"
+  echo "******************************************************************************"
+  # Launch borg prune
+  borg prune --verbose --stats --list --save-space                \
+             --prefix="${BORG_ARCHIVE_PREFIX}"                    \
+             --keep-hourly=10 --keep-daily=7 --keep-weekly=4      \
+             --keep-monthly=6 --keep-yearly=2 :: || exit -1
+
+  ## Check last archive
+  ## borg check --prefix {fqdn} --last 1 ::
+done

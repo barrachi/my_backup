@@ -13,7 +13,7 @@ EXCLUDED_FILES_FILE="${MY_BACKUP_OUTPUT_DIR}"/exclude_files
 
 # Borg configuration
 # See https://borgbackup.readthedocs.io/en/stable/usage/general.html#
-BORG_REPO='LOGIN@MACHINE:repo'
+BORG_REPOSITORIES='LOGIN@MACHINE:repo /path/to/other/repo'
 BORG_PASSPHRASE='WRITE A PASSPHRASE HERE'
 BORG_ARCHIVE_PREFIX='{fqdn}'
 
