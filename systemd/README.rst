@@ -19,6 +19,11 @@ How to manually install my_backup systemd services
     # systemctl enable my_backup.timer
     # systemctl start my_backup.timer
 
+6. Check timer is enabled::
+
+    # systemctl list-timers
+
+
 
 References
 ----------
