@@ -1,5 +1,5 @@
 [Unit]
-Description=run my_backup once
+Description=my_backup
 OnFailure=my_backup-email-admin@%n.service
 
 [Service]

@@ -1,9 +1,9 @@
 [Unit]
-Description=run my_backup periodically
+Description=my_backup timer
 OnFailure=my_backup-email-admin@%n.service
 
 [Timer]
-OnCalendar=*-*-* 12:00:00
+OnCalendar=*-*-* 01:00:00
 # If you want my_backup to be triggered when the last start time was missed,
 # for example, due to the system being powered off, change persistent to true
 Persistent=false
