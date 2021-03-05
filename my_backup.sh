@@ -66,6 +66,7 @@ done
 for VAR in BORG_REPOSITORIES BORG_PASSPHRASE BORG_ARCHIVE_PREFIX BACKUP_PATHS; do
     [ -z "${!VAR}" ] && { echo "Error: required variable '${VAR}' is not defined!"; exit -1; }
 done
+
 # Set EXCLUDE_FROM_OPTION
 EXCLUDE_FROM_OPTION=""
 [ -f "${EXCLUDED_FILES_FILE}" ] &&  EXCLUDE_FROM_OPTION="--exclude-from ${EXCLUDED_FILES_FILE}"
@@ -80,14 +81,16 @@ for BORG_REPO in ${BORG_REPOSITORIES}; do
   export BORG_PASSPHRASE
   # Launch borg init if the repository does not exist
   [ -z "$(borg info :: 2>&1 | grep 'does not exist.')" ] \
-    || { borg init --encryption=repokey-blake2 :: || exit -1 ; }
+      || { borg init --encryption=repokey-blake2 :: || exit -1 ; }
+  # Increase the time to live for the files caches entries from 20 to 60 ( > 24*2 + 2 )
+  export BORG_FILES_CACHE_TTL=60
   # Launch borg create
   borg create --verbose --stats                                   \
               --exclude-if-present .nobackup --keep-exclude-tags  \
               --exclude-caches ${EXCLUDE_FROM_OPTION}             \
               --one-file-system                                   \
               --compression lz4                                   \
-  	    ${BORG_CREATE_ARGS}                                 \
+              ${BORG_CREATE_ARGS}                                 \
               ::"${BORG_ARCHIVE_PREFIX}_{now:%Y-%m-%d_%H:%M:%S}"  \
               ${BACKUP_PATHS} || exit -1
 
@@ -104,3 +107,7 @@ for BORG_REPO in ${BORG_REPOSITORIES}; do
   ## Check last archive
   ## borg check --prefix {fqdn} --last 1 ::
 done
+
+# Clear PageCache, dentries and inodes
+sync
+echo 3 > /proc/sys/vm/drop_caches
