@@ -4,4 +4,4 @@ OnFailure=my_backup-email-admin@%n.service
 
 [Service]
 Type=oneshot
-ExecStart=/opt/my_backup/my_backup.sh
+ExecStart=/opt/my_backup/my_backup.sh -c my_backup.conf

@@ -54,11 +54,11 @@ source ${CONFIG}
 # Create MY_BACKUP_OUTPUT_DIR if it does not exist
 [ -d "${MY_BACKUP_OUTPUT_DIR}" ] || mkdir -p "${MY_BACKUP_OUTPUT_DIR}"
 
-# Launch my_backup_preexec scripts
+# Launch before backup scripts
 echo "******************************************************************************"
-echo "** my_backup_preexec scripts"
+echo "** before backup scripts"
 echo "******************************************************************************"
-for f in ${SCRIPTPATH}/my_backup_preexec.d/*.sh; do
+for f in ${SCRIPTPATH}/before_backup.d/*.sh; do
   source "${f}"
 done
 
@@ -109,5 +109,5 @@ for BORG_REPO in ${BORG_REPOSITORIES}; do
 done
 
 # Clear PageCache, dentries and inodes
-sync
-echo 3 > /proc/sys/vm/drop_caches
+#sync
+#echo 3 > /proc/sys/vm/drop_caches
