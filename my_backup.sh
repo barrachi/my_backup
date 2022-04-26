@@ -44,7 +44,7 @@ shift $((OPTIND-1))
 BORG_CREATE_ARGS=${*}
 
 # Source configuration
-CONFIG="${CONFIG:-~/.config/my_backup/default.conf}"
+CONFIG="${CONFIG:-${HOME}/.config/my_backup/default.conf}"
 [ -f "${CONFIG}" ] || { echo "Error: configuration file '${CONFIG}' not found!" >&2 ; exit -1; }
 source ${CONFIG}
 
