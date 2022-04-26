@@ -1,8 +1,8 @@
 [Unit]
 Description=my_backup
 OnFailure=my_backup-email-admin@%n.service
-Environment=HOME=%h
 
 [Service]
 Type=oneshot
+Environment=HOME=%h
 ExecStart=/opt/my_backup/my_backup.sh
