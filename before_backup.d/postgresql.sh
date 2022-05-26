@@ -19,10 +19,12 @@ PGSQL_DIR="${MY_BACKUP_OUTPUT_DIR}/pgsql/${PGSQL_VER}"
 
 # Dump databases
 echo "Backing up data from PostgreSQL ${PGSQL_VER} in '${PGSQL_DIR}/'..."
-/usr/bin/pg_dumpall -U ${PGSQL_USER} | gzip > "${PGSQL_DIR}/pg_dumpall.out.gz"
+sudo -u  ${PGSQL_USER} /usr/bin/pg_dumpall | gzip > "${PGSQL_DIR}/pg_dumpall.out.gz"
+PGSQL_SYSTEM_DIR=/etc/postgresql-${PGSQL_VER}  # Gentoo
+[ -d "${PGSQL_DIR}" ] || PGSQL_SYSTEM_DIR==/etc/postgresql/${PGSQL_VER}/main  # Ubuntu
 for f in pg_hba.conf pg_ident.conf postgresql.conf;
 do
-  cp /etc/postgresql-${PGSQL_VER}/${f} ${PGSQL_DIR}/data/${f}
+  cp ${PGSQL_SYSTE_DIR}/${f} ${PGSQL_DIR}/data/${f}
 done
 
 #/-----------------------------------
