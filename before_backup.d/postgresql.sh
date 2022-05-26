@@ -24,7 +24,7 @@ PGSQL_SYSTEM_DIR=/etc/postgresql-${PGSQL_VER}  # Gentoo
 [ -d "${PGSQL_DIR}" ] || PGSQL_SYSTEM_DIR==/etc/postgresql/${PGSQL_VER}/main  # Ubuntu
 for f in pg_hba.conf pg_ident.conf postgresql.conf;
 do
-  cp ${PGSQL_SYSTE_DIR}/${f} ${PGSQL_DIR}/data/${f}
+  cp ${PGSQL_SYSTEM_DIR}/${f} ${PGSQL_DIR}/data/${f}
 done
 
 #/-----------------------------------
