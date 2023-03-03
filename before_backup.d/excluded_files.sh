@@ -29,9 +29,13 @@ cat > ${EXCLUDED_FILES_FILE} <<EOF
 /*/.xauth*
 /*/.xsession-*
 
-# Cache dirs
+# Cache dirs and navigators
 #------------------------------
 /home/*/.cache
+/home/*/.config/google-chrome
+/home/*/.config/chromium
+/home/*/.mozilla
+
 
 # Indexers and trash folders
 #------------------------------
