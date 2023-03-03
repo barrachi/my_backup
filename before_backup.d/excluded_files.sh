@@ -36,7 +36,6 @@ cat > ${EXCLUDED_FILES_FILE} <<EOF
 /home/*/.config/chromium
 /home/*/.mozilla
 
-
 # Indexers and trash folders
 #------------------------------
 /*/.local/share/akonadi
