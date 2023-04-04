@@ -36,6 +36,10 @@ cat > ${EXCLUDED_FILES_FILE} <<EOF
 /home/*/.config/chromium
 /home/*/.mozilla
 
+# Borg config dirs
+#-----------------------------
+/*/.config/borg
+
 # Indexers and trash folders
 #------------------------------
 /*/.local/share/akonadi
