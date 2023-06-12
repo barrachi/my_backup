@@ -100,12 +100,12 @@ for BORG_REPO in ${BORG_REPOSITORIES}; do
   echo "******************************************************************************"
   # Launch borg prune
   borg prune --verbose --stats --list --save-space                \
-             --prefix="${BORG_ARCHIVE_PREFIX}"                    \
+             --glob-archives="${BORG_ARCHIVE_PREFIX}*"            \
              --keep-hourly=10 --keep-daily=7 --keep-weekly=4      \
              --keep-monthly=6 --keep-yearly=2 :: || exit -1
 
   ## Check last archive
-  ## borg check --prefix {fqdn} --last 1 ::
+  ## borg check --glob-archives="${BORG_ARCHIVE_PREFIX}*" --last 1 ::
 done
 
 # Clear PageCache, dentries and inodes
