@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ###########################################################################
 #  my_backup.sh -- A simple backup script for a Gentoo systemd system     #
