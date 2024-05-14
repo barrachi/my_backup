@@ -68,6 +68,12 @@ cat > "${EXCLUDED_FILES_FILE}" <<EOF
 #-----------------------------
 /*/.nx
 
+# NPM folders
+#-----------------------------
+/home/*/.npm
+/home/*/.npm-global
+
+
 
 # Backup files
 #------------------------------
@@ -96,4 +102,12 @@ echo "# Python virtual environments                      " >> "${EXCLUDED_FILES_
 echo "#--------------------------------------------------" >> "${EXCLUDED_FILES_FILE}"
 for FILE in $(find /home -xdev -name "pyvenv.cfg"); do
     echo ${FILE%/pyvenv.cfg} >>  "${EXCLUDED_FILES_FILE}"
+done
+
+
+echo "#--------------------------------------------------" >> "${EXCLUDED_FILES_FILE}"
+echo "# NodeJS modules                      " >> "${EXCLUDED_FILES_FILE}"
+echo "#--------------------------------------------------" >> "${EXCLUDED_FILES_FILE}"
+for FILE in $(find /home -xdev -type d -name node_modules -prune); do
+    echo ${FILE} >>  "${EXCLUDED_FILES_FILE}"
 done
