@@ -100,14 +100,15 @@ fi
 echo "#--------------------------------------------------" >> "${EXCLUDED_FILES_FILE}"
 echo "# Python virtual environments                      " >> "${EXCLUDED_FILES_FILE}"
 echo "#--------------------------------------------------" >> "${EXCLUDED_FILES_FILE}"
-for FILE in $(find /home -xdev -name "pyvenv.cfg"); do
-    echo ${FILE%/pyvenv.cfg} >>  "${EXCLUDED_FILES_FILE}"
-done
-
+find /home -xdev -name "pyvenv.cfg" | \
+    while read FILE; do
+	echo "${FILE%/pyvenv.cfg}" >> "${EXCLUDED_FILES_FILE}"
+    done
 
 echo "#--------------------------------------------------" >> "${EXCLUDED_FILES_FILE}"
-echo "# NodeJS modules                      " >> "${EXCLUDED_FILES_FILE}"
+echo "# NodeJS modules                                   " >> "${EXCLUDED_FILES_FILE}"
 echo "#--------------------------------------------------" >> "${EXCLUDED_FILES_FILE}"
-for FILE in $(find /home -xdev -type d -name node_modules -prune); do
-    echo ${FILE} >>  "${EXCLUDED_FILES_FILE}"
-done
+find /home -xdev -type d -name node_modules -prune | \
+    while read FILE; do
+	echo "${FILE}" >> "${EXCLUDED_FILES_FILE}"
+    done
