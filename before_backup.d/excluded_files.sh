@@ -86,6 +86,7 @@ cat > "${EXCLUDED_FILES_FILE}" <<EOF
 *.bak
 *.old
 *.log
+*.sbmbak
 
 # Version control dirs
 #------------------------------
