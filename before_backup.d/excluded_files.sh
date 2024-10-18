@@ -32,6 +32,7 @@ cat > "${EXCLUDED_FILES_FILE}" <<EOF
 # Cache dirs and navigators
 #------------------------------
 /*/.cache
+/*/.ccache
 /*/.compose_cache
 /*/__pycache__
 /*/cache
