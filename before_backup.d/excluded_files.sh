@@ -31,20 +31,24 @@ cat > "${EXCLUDED_FILES_FILE}" <<EOF
 
 # Cache dirs and navigators
 #------------------------------
-/home/*/.cache
+/*/.cache
+/*/.compose_cache
+/*/__pycache__
 /home/*/.config/google-chrome
 /home/*/.config/chromium
 /home/*/.mozilla
+/home/*/.pulse
+/home/*/.zzz
+/home/*/zzz
+
 
 # Borg config dirs
 #-----------------------------
 /*/.config/borg
 
-# Indexers and trash folders
+# Applications, indexers, and trash folders
 #------------------------------
-/*/.local/share/akonadi
-/*/.local/share/baloo
-/*/.local/share/Trash
+/*/.local/share/
 /*/files_trashbin
 
 # Download folders
@@ -64,21 +68,23 @@ cat > "${EXCLUDED_FILES_FILE}" <<EOF
 #-----------------------------
 /*/.kite
 
-# NX folders
+# NX, vnc and x2go folders
 #-----------------------------
 /*/.nx
+/*/.vnc
+/*/.x2go
 
 # NPM folders
 #-----------------------------
 /home/*/.npm
 /home/*/.npm-global
 
-
-
-# Backup files
+# Backup and log files
 #------------------------------
 *~
 *.bak
+*.old
+*.log
 
 # Version control dirs in homes
 #------------------------------
