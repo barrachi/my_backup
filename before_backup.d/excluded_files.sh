@@ -34,6 +34,7 @@ cat > "${EXCLUDED_FILES_FILE}" <<EOF
 /*/.cache
 /*/.compose_cache
 /*/__pycache__
+/*/cache
 /home/*/.config/google-chrome
 /home/*/.config/chromium
 /home/*/.mozilla
@@ -86,10 +87,10 @@ cat > "${EXCLUDED_FILES_FILE}" <<EOF
 *.old
 *.log
 
-# Version control dirs in homes
+# Version control dirs
 #------------------------------
-/home/*/.git
-/home/*/.bzr
+/*/.git
+/*/.bzr
 
 EOF
 
