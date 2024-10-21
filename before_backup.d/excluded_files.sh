@@ -40,9 +40,6 @@ cat > "${EXCLUDED_FILES_FILE}" <<EOF
 /home/*/.config/chromium
 /home/*/.mozilla
 /home/*/.pulse
-/home/*/.zzz
-/home/*/zzz
-
 
 # Borg config dirs
 #-----------------------------
