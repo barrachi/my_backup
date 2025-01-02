@@ -74,9 +74,13 @@ cat > "${EXCLUDED_FILES_FILE}" <<EOF
 /*/.x2go
 
 # NPM folders
-#-----------------------------
+#------------------------------
 /home/*/.npm
 /home/*/.npm-global
+
+# Local python folders
+#------------------------------
+/*/.local/lib/python*
 
 # Backup and log files
 #------------------------------
@@ -106,11 +110,12 @@ fi
 echo "#--------------------------------------------------" >> "${EXCLUDED_FILES_FILE}"
 echo "# Python virtual environments                      " >> "${EXCLUDED_FILES_FILE}"
 echo "#--------------------------------------------------" >> "${EXCLUDED_FILES_FILE}"
-find /home -xdev -name "pyvenv.cfg" | \
-    while read FILE; do
-	echo "${FILE%/pyvenv.cfg}" >> "${EXCLUDED_FILES_FILE}"
-    done
-
+for DIR in /home /var /opt; do
+    find ${DIR} -xdev -name "pyvenv.cfg" | \
+	while read FILE; do
+	    echo "${FILE%/pyvenv.cfg}" >> "${EXCLUDED_FILES_FILE}"
+	done
+done
 echo "#--------------------------------------------------" >> "${EXCLUDED_FILES_FILE}"
 echo "# NodeJS modules                                   " >> "${EXCLUDED_FILES_FILE}"
 echo "#--------------------------------------------------" >> "${EXCLUDED_FILES_FILE}"
